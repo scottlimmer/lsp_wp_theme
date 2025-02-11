@@ -1,0 +1,36 @@
+@import "bootstrap/scss/functions";
+
+
+$fa-font-path: './webfonts';
+
+
+@import './fontawesome/scss/fontawesome.scss';
+@import './fontawesome/scss/brands.scss';
+
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+$body-bg: #F6F6F6;
+$font-size-base: 1.1rem;
+$font-family-sans-serif: "DM Sans", sans-serif;
+$headings-font-family: "Lora", serif;
+$headings-font-weight: 700;
+
+$line-height-base: 1.5;
+$content-width: 50ch;
+$link-color: $indigo;
+$headings-margin-bottom: $spacer * 1;
+$link-color: #006CE8;
+$link-hover-color: #006CE8;
+
+
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+
+@import "bootstrap/scss/bootstrap-utilities";
+@import "bootstrap/scss/containers";
+
