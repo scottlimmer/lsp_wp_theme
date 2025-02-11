@@ -1,0 +1,235 @@
+//@import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import "_bootstrap";
+
+a:link,
+a:visited {
+  color: $link-color;
+}
+
+a:hover,
+a:active {
+  color: $link-hover-color;
+}
+
+header {
+  display: flex;
+  margin: 2em auto 2em;
+
+  .brand {
+    h1 {
+      font-family: "Josefin Sans", sans-serif;
+      font-size: 32px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .logo {
+      max-width: 80px;
+      display: inline-block;
+      margin-right: 20px;
+
+      img {
+        width: 80px;
+      }
+    }
+  }
+
+  @keyframes logo {
+    2% {
+      transform: rotate(2deg);
+    }
+    10% {
+      transform: rotate(2deg);
+    }
+    15% {
+      transform: rotate(-25deg)
+    }
+    25% {
+      transform: rotate(-25deg) translateX(1000px);
+    }
+    35% {
+      transform: translateY(-300px) translateX(1000px);
+    }
+    40% {
+      transform: translateY(-300px);
+    }
+    45% {
+      transform: translateY(-300px) translateX(-1000px);
+    }
+    75% {
+      transform: translateY(-50px) translateX(-1000px);
+    }
+  }
+
+  .logo:hover img {
+    animation: logo 3s forwards ease-in-out;
+  }
+
+}
+
+nav.primary,
+.sidebar .menu {
+  font-family: "Josefin Sans", sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1rem;
+  word-spacing: 0.2rem;
+}
+
+main.home,
+main.archive {
+  .sidebar .menu ul {
+    font-size: 18px;
+  }
+}
+
+.nav {
+  li {
+    display: inline-block;
+    margin-left: 40px;
+  }
+}
+
+.nav,
+.sidebar .menu ul {
+  list-style-type: none;
+
+  li {
+
+    a {
+      color: #000;
+      text-decoration: none;
+      padding: 6px 0;
+      display: block;
+    }
+
+    a::after {
+      display: block;
+      content: " ";
+      border-bottom: 1px solid #000;
+      height: 0;
+      transform: scaleX(0);
+      transition: transform .5s;
+      transform-origin: 0 0;
+    }
+
+    &.current_page_item,
+    &.current_page_parent,
+    &.current-page-ancestor {
+      a::after {
+        transform: scaleX(1);
+      }
+    }
+
+    a:hover {
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+main {
+  line-height: 1.6;
+  width: 870px;
+  margin: 0 auto;
+
+  &.home,
+  &.page,
+  &.index,
+  &.archive,
+  &.four-zero-four {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 2em;
+  }
+}
+
+article {
+  p {
+    width: $content-width;
+  }
+
+
+  p, figure {
+    & + h2,
+    & + h3 {
+      margin-top: 1em;
+    }
+  }
+
+}
+
+.team-member {
+  margin-bottom: 2em;
+
+  img {
+    float: left;
+    padding: 0 1em 0 0;
+  }
+}
+
+
+figcaption {
+  padding: 0.5em 1em 1em;
+  font-size: 15px;
+
+  &.wp-element-caption {
+    text-align: center;
+  }
+}
+
+.wp-block-separator {
+  border-top: 1px solid #000;
+  opacity: 1;
+  margin: 2em 0;
+}
+
+table {
+  td, th {
+    padding: 0.3em;
+  }
+}
+
+@import "_front_page";
+@import "_news";
+
+.sidebar {
+  border-right: 1px solid #000;
+  padding-right: 2em;
+
+  .menu {
+    text-align: right;
+  }
+
+
+}
+
+
+footer {
+  background: #731F80;
+  color: #FFF;
+  font-family: "Josefin Sans", sans-serif;
+  text-transform: uppercase;
+  font-size: 16px;
+  text-align: center;
+  padding: 2em;
+  margin-top: 3em;
+
+  .logos {
+    margin: 2.5em auto 0;
+    display: grid;
+    grid-template-columns: min-content min-content min-content;
+    column-gap: 50px;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
