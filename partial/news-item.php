@@ -7,10 +7,10 @@
  */
 ?>
 <article class="news-item">
-    <?php include 'partial/news-item-date.php'; ?>
-    <h1>
+    <h2>
         <?php the_title() ?>
-    </h1>
+    </h2>
+    <?php get_template_part('partial/news-item-date'); ?>
     <?php
     the_content(); ?>
 </article>

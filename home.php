@@ -19,28 +19,30 @@ include 'partial/sidebar/news.php';
 
                 <h1><?=get_news_page()->post_title?></h1>
 
+
                 <?php
-                $post_args = [
-                    'date_query' => [
-                        'year' => date('Y')
-                    ]
-                ];
+                $year =  date('Y');
 
-                $current_posts = get_posts($post_args);
+                for ($year; $year > 2015; $year--) {
+	                $post_args = [
+		                'date_query' => [
+			                'year' => $year
+		                ]
+	                ];
 
-                if (count($current_posts)):
-                    foreach ($current_posts as $post) :
-                        setup_postdata($post);
-                        get_template_part('partial/news-item');
-                    endforeach;
-                else:
-                    if (have_posts()) :
-                        while (have_posts()) :
-                            the_post();
-                            get_template_part('partial/news-item');
-                        endwhile;
-                    endif;
-                endif;
+	                $current_posts = get_posts($post_args);
+
+                    if (count($current_posts)) {
+                        break;
+                    }
+                }
+
+
+                foreach ($current_posts as $post) :
+                    setup_postdata($post);
+                    get_template_part('partial/news-item');
+                endforeach;
+
                 ?>
             </div>
 

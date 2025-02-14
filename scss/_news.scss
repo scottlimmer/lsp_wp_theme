@@ -1,12 +1,24 @@
 main.home,
 main.archive {
   .news-listing {
-    margin: 0 auto;
-    max-width: $content-width;
+
   }
 
   .news-item {
     margin-bottom: 2em;
+
+    .date {
+      font-size: 1rem;
+    }
+
+    .date::before {
+      display: inline-block;
+      letter-spacing: -3px;
+      content: "——";
+      padding-right: 0.7rem;
+      font-size: 0.8rem;
+      vertical-align: text-top;
+    }
   }
 
   article + article {

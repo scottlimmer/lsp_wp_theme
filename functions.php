@@ -109,6 +109,12 @@ function get_active_template() {
 }
 
 function get_post_slug( int|null $post_id = null ): string {
+	if ( is_archive() ) {
+		return 'archive';
+	}
+	if ( is_home() ) {
+		return 'archive';
+	}
 	$post = get_post( $post_id );
 
 	return $post->post_name;

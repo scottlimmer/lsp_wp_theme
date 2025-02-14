@@ -1,1 +1,1 @@
-<p class="date"><i class="far fa-calendar-alt"></i> <?= get_the_date('F d, Y') ?></p>
+<p class="date"><?= get_the_date('F d, Y') ?></p>

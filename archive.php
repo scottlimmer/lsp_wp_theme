@@ -2,15 +2,14 @@
 
 <?php include 'partial/sidebar/news.php'; ?>
 
+<?php
+global $year;
+?>
     <div class="content news-listing">
+        <h1><?=$year?> Archives</h1>
 		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-            <article>
-                <h3><?php the_title(); ?></h3>
-	            <?php include 'partial/news-item-date.php'; ?>
-                <?php the_content(); ?>
-                <?php wp_link_pages(); ?>
-                <?php edit_post_link(); ?>
-            </article>
+
+			<?php get_template_part( 'partial/news-item' ); ?>
 
 		<?php endwhile; ?>
 

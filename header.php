@@ -6,6 +6,9 @@
 	<?php wp_head(); ?>
 </head>
 <body>
+<?php
+// TODO: Favicon
+?>
 <div class="container-lg">
     <header>
         <div class="brand d-flex me-auto">
