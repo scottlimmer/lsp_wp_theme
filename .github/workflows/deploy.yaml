@@ -10,23 +10,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p $SERVER_PORT $SERVER_HOST >> ~/.ssh/known_hosts
-          sudo apt-get install sshpass
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          SERVER_PORT: ${{vars.SERVER_PORT}}
-          SERVER_HOST: ${{vars.SERVER_HOST}}
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: unnecessary
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p ${{ secrets.SERVER_PORT }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to server
         run: |
           sshpass -p '$SSH_PASS' 
-          ssh -v -o StrictHostKeyChecking=no -p $SERVER_PORT $SERVER_USER@$SERVER_HOST <<'ENDSSH'
-          cd ${{ vars.THEME_PATH }}
+          ssh -v -p $SERVER_PORT $SERVER_USER@$SERVER_HOST <<'ENDSSH'
+          cd $THEME_PATH
           git pull
           ENDSSH
         env:
@@ -34,3 +31,4 @@ jobs:
           SERVER_HOST: ${{vars.SERVER_HOST}}
           SERVER_USER: ${{vars.SERVER_USER}}
           SSH_PASS: ${{ secrets.SSH_KEY_PASS }}
+          THEME_PATH: ${{ vars.THEME_PATH }}
