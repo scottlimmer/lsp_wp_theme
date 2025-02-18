@@ -17,8 +17,11 @@ jobs:
           known_hosts: unnecessary
 
       - name: Adding Known Hosts
-        run: ssh-keyscan -p ${{ secrets.SERVER_PORT }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
+        run: ssh-keyscan -p $SERVER_PORT -H $SERVER_HOST >> ~/.ssh/known_hosts
+        env:
+          SERVER_PORT: ${{vars.SERVER_PORT}}
+          SERVER_HOST: ${{vars.SERVER_HOST}}
+          
       - name: Deploy to server
         run: |
           sshpass -p '$SSH_PASS' 
