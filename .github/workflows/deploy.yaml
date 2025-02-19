@@ -16,11 +16,9 @@ jobs:
           node-version: '22.x'
 
       - name: Install packages
-        working-directory: ./themes/lsp
         run: npm install
 
       - name: Build assets
-        working-directory: ./themes/lsp
         run: npm run build
 
       - name: Sync files
