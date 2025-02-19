@@ -10,28 +10,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          key: ${{ secrets.SSH_KEY }}
-          known_hosts: unnecessary
-
-      - name: Adding Known Hosts
-        run: ssh-keyscan -p $SERVER_PORT -H $SERVER_HOST >> ~/.ssh/known_hosts
-        env:
-          SERVER_PORT: ${{vars.SERVER_PORT}}
-          SERVER_HOST: ${{vars.SERVER_HOST}}
-          
-      - name: Deploy to server
-        run: |
-          sshpass -p '$SSH_PASS' 
-          ssh -v -p $SERVER_PORT $SERVER_USER@$SERVER_HOST <<'ENDSSH'
-          cd $THEME_PATH
-          git pull
-          ENDSSH
-        env:
-          SERVER_PORT: ${{vars.SERVER_PORT}}
-          SERVER_HOST: ${{vars.SERVER_HOST}}
-          SERVER_USER: ${{vars.SERVER_USER}}
-          SSH_PASS: ${{ secrets.SSH_KEY_PASS }}
-          THEME_PATH: ${{ vars.THEME_PATH }}
+          server: ${{ vars.FTP_HOST }}
+          port: ${{ vars.FTP_PORT }}
+          username: ${{ vars.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          remote_dir: ${{ vars.THEME_PATH }} 
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/scss/**
