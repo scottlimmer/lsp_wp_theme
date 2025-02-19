@@ -1,6 +1,6 @@
 <?php
 
-function get_modified_time( $path ) {
+function get_modified_time( $path ): string {
 	$path = __DIR__ . "/" . $path;
 
 	return date( 'YmdHi', filemtime( $path ) );
@@ -8,20 +8,7 @@ function get_modified_time( $path ) {
 
 // Enqueue stylesheets
 function lsp_styles() {
-
 	wp_enqueue_style( 'base', get_template_directory_uri() . '/css/base.css', [], get_modified_time( 'css/base.css' ) );
-
-//	if (is_front_page()) {
-//		wp_enqueue_style('lsp-front-page-style', get_template_directory_uri() . '/css/front-page.css', ['lsp-style'], '1.0.0');
-//	}
-//
-//	if (!is_front_page() || is_news()) {
-//		wp_enqueue_style('lsp-page-style', get_template_directory_uri() . '/css/page.css', ['lsp-style'], '1.0.5');
-//	}
-//
-//	if (is_search()) {
-//		wp_enqueue_style('lsp-search-style', get_template_directory_uri() . '/css/search.css', ['lsp-page-style'], '1.0.0');
-//	}
 }
 
 add_image_size( 'tile-thumbnail', 220, 190, true );
@@ -94,7 +81,7 @@ function get_news_page(): WP_Post {
 	return get_post( get_option( 'page_for_posts' ) );
 }
 
-function get_active_template() {
+function get_active_template(): string {
 	global $template;
 
 	$basename = basename( $template, '.php' );
