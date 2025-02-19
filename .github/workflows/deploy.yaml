@@ -18,7 +18,7 @@ jobs:
           username: ${{ vars.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           protocol: ftps
-          remote_dir: ${{ vars.THEME_PATH }} 
+          server-dir: ${{ vars.THEME_PATH }} 
           exclude: |
             **/.git*
             **/.git*/**
