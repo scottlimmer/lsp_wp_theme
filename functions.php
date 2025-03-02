@@ -85,6 +85,9 @@ function get_active_template(): string {
 	global $template;
 
 	$basename = basename( $template, '.php' );
+	if ( str_starts_with( $basename, 'page-' ) ) {
+		$basename = "page $basename";
+	}
 	switch ( $basename ) {
 		case '404':
 			$basename = 'four-zero-four';
@@ -95,6 +98,7 @@ function get_active_template(): string {
 
 }
 
+
 function get_post_slug( int|null $post_id = null ): string {
 	if ( is_archive() ) {
 		return 'archive';
@@ -102,8 +106,106 @@ function get_post_slug( int|null $post_id = null ): string {
 	if ( is_home() ) {
 		return 'archive';
 	}
+
 	$post = get_post( $post_id );
 
-	return $post->post_name;
+	return $post?->post_name ?? '';
 }
 
+
+function validate_sighting_data( array $input_data = [] ) {
+	$filters = [
+		'sighting_name'     => [
+			'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS
+		],
+		'sighting_email'    => [
+			'filter' => FILTER_VALIDATE_EMAIL,
+		],
+		'sighting_location' => [
+			'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS
+		],
+		'sighting_date'     => [],
+		'sighting_count'    => [
+			'filter'  => FILTER_VALIDATE_INT,
+			'options' => [
+				'min_range' => 0
+			]
+		],
+		'sighting_lat'      => [
+			'filter'  => FILTER_VALIDATE_FLOAT,
+			'flags'   => FILTER_FLAG_ALLOW_FRACTION,
+			'options' => [
+				'min_range' => - 45,
+				'max_range' => 60
+			]
+		],
+		'sighting_lng'      => [
+			'filter'  => FILTER_VALIDATE_FLOAT,
+			'flags'   => FILTER_FLAG_ALLOW_FRACTION,
+			'options' => [
+				'min_range' => 110,
+				'max_range' => 180
+			]
+		],
+		'sighting_comments' => [
+			'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+		]
+	];
+
+	return filter_var_array( $input_data, $filters );
+
+}
+
+add_action( 'init', 'start_session', 1 );
+function start_session(): void {
+	if ( ! session_id() ) {
+		session_start();
+	}
+}
+
+add_action( 'wp_logout', 'end_session' );
+add_action( 'wp_login', 'end_session' );
+function end_session(): void {
+	session_destroy();
+}
+
+function get_missing_data_fields( array $data ): array {
+	$error_fields = array_keys( array_filter( $data, function ( $value, $key ) {
+		return empty( $value );
+	}, ARRAY_FILTER_USE_BOTH ) );
+	$error_fields = array_map( function ( $value ) {
+		return str_replace( 'sighting_', '', $value );
+	}, $error_fields );
+
+	return $error_fields;
+}
+
+function upload_to_sheets( $data ) {
+	require 'vendor/autoload.php';
+	$config = include 'sightings.config.php';
+
+	$client = new Google\Client();
+	$client->setAuthConfig( $config['credentialsFile'] );
+	$client->setApplicationName( "Report a sighting" );
+	$client->addScope( [ 'https://www.googleapis.com/auth/spreadsheets' ] );
+	$service = new Google\Service\Sheets( $client );
+	$success = false;
+
+	try {
+		$values = [ array_values( $data ) ];
+		$body   = new Google_Service_Sheets_ValueRange( [
+			'values' => $values
+		] );
+		$params = [
+			'valueInputOption' => 'USER_ENTERED'
+		];
+		$service->spreadsheets_values->append( $config['spreadsheetId'], $config['range'], $body, $params );
+		$success = true;
+	} catch ( Exception $e ) {
+		error_log($e->getMessage());
+		error_log($e->getMessage(), 1, 'snipe@lathamssnipeproject.au');
+
+	}
+
+	return $success;
+}
