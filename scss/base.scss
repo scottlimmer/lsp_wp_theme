@@ -216,8 +216,12 @@ table {
   .menu {
     text-align: right;
   }
+}
 
-
+div.wpforms-container-full .wpforms-confirmation-container-full,
+div[submit-success] > .wpforms-confirmation-container-full:not(.wpforms-redirection-message) {
+  background: #ececec;
+  border: 1px solid #959595;
 }
 
 
