@@ -1,6 +1,8 @@
 <?php
 return [
-	'spreadsheetId' => '',
+	'spreadsheetId'   => '',
 	'credentialsFile' => '',
-	'range' => 'Sheet1!A:H'
+	'range'           => 'Sheet1!A:I',
+	'recaptchaKey'    => '',
+	'recaptchaSecret' => '',
 ];

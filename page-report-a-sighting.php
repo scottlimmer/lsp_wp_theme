@@ -16,6 +16,10 @@ get_header();
 
     <div class="content">
 		<?php
+
+		class AllowResubmitException extends Exception {
+		}
+
 		if ( have_posts() ) :
 			while ( have_posts() ) : the_post(); ?>
                 <h1><?php the_title() ?></h1>
@@ -25,9 +29,10 @@ get_header();
 		endif;
 		?>
 		<?php
-		$show_form    = true;
-		$show_sucess  = false;
-		$error_fields = [];
+		$config        = include 'sightings.config.php';
+		$show_form     = true;
+		$show_success  = false;
+		$error_message = null;
 		start_session();
 
 		// Fetch current csrf then regenerate
@@ -35,47 +40,85 @@ get_header();
 		$_SESSION['sighting_csrf_token'] = bin2hex( random_bytes( 32 ) );
 
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ):
-			// Check CSRF
-			$token = filter_input( INPUT_POST, '_csrf', FILTER_SANITIZE_SPECIAL_CHARS );
-            if (!$token || !$csrf_token || $token !== $csrf_token) {
-                get_footer();
-                exit;
-			}
-
-			// Sanitise and validate data
-			$data         = validate_sighting_data( $_POST );
-			$error_fields = get_missing_data_fields( $data );
-
-			// TODO: Captcha
-
-			// Process data if valid
-			if ( empty( $error_fields ) ) {
-				if ( upload_to_sheets( $data ) ) {
-					$show_form    = false;
-					$show_success = true;
+			try {
+				// Check CSRF
+				$token = filter_input(
+					INPUT_POST,
+					'_csrf',
+					FILTER_SANITIZE_SPECIAL_CHARS
+				);
+				if ( ! $token || ! $csrf_token || $token !== $csrf_token ) {
+					throw new Exception( 'Form already submitted.' );
 				}
+
+				// Sanitise and validate data
+				$data         = validate_sighting_data( $_POST );
+				$error_fields = get_missing_data_fields( $data );
+				if ( ! empty( $error_fields ) ) {
+					throw new AllowResubmitException(
+						"There was a problem submitting your sighting. Please check the following
+                        fields: " . implode( ', ', $error_fields )
+					);
+				}
+
+				// Validate captcha
+				$captcha_response = filter_input(
+					INPUT_POST,
+					'g-recaptcha-response',
+					FILTER_SANITIZE_SPECIAL_CHARS
+				);
+				if ( ! $captcha_response ) {
+					error_log( 'No captcha response found.' );
+					throw new Exception( 'Unable to submit form.' );
+				}
+
+				if ( validate_captcha( $captcha_response ) ) {
+					$data['submitted'] =
+						( new DateTime(
+							'now',
+							( new DateTimeZone( 'UTC' ) )
+						) )->format(
+							DateTime::ATOM
+						);
+				}
+
+				// Submit data
+				if ( ! upload_to_sheets( $data ) ) {
+					throw new Exception( 'Unable to submit sighting.' );
+				}
+
+				$show_success = true;
+				$show_form    = false;
+			} catch ( JsonException $e ) {
+				error_log( 'Unable to parse recaptcha response' );
+				$error_message = 'Unable to submit form.';
+			} catch ( AllowResubmitException $e ) {
+				$error_message = $e->getMessage();
+			} catch ( \Exception $e ) {
+				$error_message = $e->getMessage();
+				$show_form     = false;
 			}
-		endif; ?>
+		endif;
+		?>
 
-
-
-		<?php if ( $show_sucess ) : ?>
+		<?php if ( $show_success ) : ?>
             <div class="alert alert-success" role="alert">
                 Thank you, your sighting has been submitted successfully.
             </div>
 		<?php endif; ?>
 
+		<?php if ( $error_message ) : ?>
+            <div class="alert alert-danger" role="alert">
+				<?= $error_message ?>
+            </div>
+		<?php endif; ?>
+
 		<?php if ( $show_form ) : ?>
 
-            <form action="" method="POST" class="mb-4">
+            <form action="" method="POST" id="report-a-sighting" class="mb-4">
+
                 <input type="hidden" name="_csrf" value="<?= $_SESSION['sighting_csrf_token']; ?>">
 
-				<?php if ( ! empty( $error_fields ) ): ?>
-                    <div class="alert alert-danger" role="alert">
-                        There was a problem submitting your sighting. Please check the following
-                        fields: <?= implode( ', ', $error_fields ) ?>
-                    </div>
-				<?php endif; ?>
                 <div class="mb-3">
                     <label class="form-label" for="sighting_name">Name</label>
                     <input type="text" id="sighting_name" name="sighting_name" class="form-control"
@@ -136,13 +179,14 @@ get_header();
                 </div>
 
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" value="">
+
+                <button type="button" onclick="submit_recaptcha()" class="btn btn-primary">Submit</button>
 
             </form>
             <p>If you are having difficulties submitting your sighting, please use the generic <a href="/contact">Contact</a>
                 form.</p>
 		<?php endif; ?>
     </div>
-
 <?php
 get_footer();
