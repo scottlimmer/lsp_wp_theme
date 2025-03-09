@@ -195,19 +195,6 @@ function validate_sighting_data( array $input_data = [] ) {
 
 }
 
-add_action( 'init', 'start_session', 1 );
-function start_session(): void {
-	if ( session_status() !== PHP_SESSION_ACTIVE ) {
-		session_start();
-	}
-}
-
-add_action( 'wp_logout', 'end_session' );
-add_action( 'wp_login', 'end_session' );
-function end_session(): void {
-	session_destroy();
-}
-
 function get_missing_data_fields( array $data ): array {
 	$error_fields = array_keys( array_filter( $data, function ( $value, $key ) {
 		return is_null( $value ) or $value === false;
