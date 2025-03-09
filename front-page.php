@@ -26,31 +26,24 @@ get_header();
         </div>
         <div class="intro-side">
 			<?php
+			$page = get_page_by_slug( 'report-a-sighting' );
+			if ( $page ): ?>
 
-			$child_pages = get_child_pages( get_the_ID() );
 
-			if ( $child_pages->have_posts() ) {
-				while ( $child_pages->have_posts() ) {
-					$child_pages->the_post();
-					?>
-					<?php if ( has_post_thumbnail() ) :
-						$image_url = wp_get_attachment_image_url( get_post_thumbnail_id(), 'tile-thumbnail' );
-					endif; ?>
+				<?php if ( has_post_thumbnail( $page ) ) :
+					$image_url = wp_get_attachment_image_url( get_post_thumbnail_id( $page ), 'tile-thumbnail' );
+				endif; ?>
 
-                    <a
-                            class="tile"
-                            href="<?php echo get_permalink(); ?>"
-                            style="<?= $image_url ? "background-image: url({$image_url}); " : '' ?>"
-                    >
+                <a
+                        class="tile"
+                        href="<?php echo get_permalink( $page ); ?>"
+                        style="<?= $image_url ? "background-image: url({$image_url}); " : '' ?>"
+                >
 
-                        <span><?php the_title(); ?></span>
-                    </a>
-					<?php
-				}
-			} else {
-				echo 'No child pages found.';
-			}
-
+                    <span><?= $page->post_title ?></span>
+                </a>
+			<?php
+			endif;
 			?>
 
             <a
