@@ -142,6 +142,7 @@ get_header();
                     <div class="col-md-6">
                         <label class="form-label" for="sighting_date">Date</label>
                         <input type="date" id="sighting_date" name="sighting_date" class="form-control"
+                               max="<?=date('Y-m-d')?>"
                                value="<?= $_POST['sighting_date'] ?? '' ?>" required>
                     </div>
 

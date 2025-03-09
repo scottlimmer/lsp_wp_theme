@@ -197,7 +197,7 @@ function validate_sighting_data( array $input_data = [] ) {
 
 add_action( 'init', 'start_session', 1 );
 function start_session(): void {
-	if ( ! session_id() ) {
+	if ( session_status() !== PHP_SESSION_ACTIVE ) {
 		session_start();
 	}
 }
