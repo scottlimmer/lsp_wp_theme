@@ -6,6 +6,12 @@ function get_modified_time( $path ): string {
 	return date( 'YmdHi', filemtime( $path ) );
 }
 
+function excerpt_marker( $more ): string {
+	return ' ...';
+}
+
+add_filter( 'excerpt_more', 'excerpt_marker' );
+
 // Enqueue stylesheets
 function lsp_styles() {
 	wp_enqueue_style( 'base', get_template_directory_uri() . '/css/base.css', [], get_modified_time( 'css/base.css' ) );
