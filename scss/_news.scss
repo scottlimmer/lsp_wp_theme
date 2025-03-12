@@ -1,8 +1,6 @@
 main.home,
-main.archive {
-  .news-listing {
-
-  }
+main.archive,
+main.single {
 
   .news-item {
     margin-bottom: 2em;
@@ -25,6 +23,16 @@ main.archive {
     margin-top: 2em;
     padding-top: 2em;
     border-top: 1px solid #000;
+  }
+
+  .post-navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1em;
+
+    .next-post {
+      text-align: right;
+    }
   }
 }
 

@@ -7,10 +7,12 @@
  */
 ?>
 <article class="news-item">
-    <h2>
-        <?php the_title() ?>
-    </h2>
-    <?php get_template_part('partial/news-item-date'); ?>
-    <?php
-    the_content(); ?>
+    <h2><?php the_title(); ?></h2>
+
+	<?php get_template_part( 'partial/news-item-date' ); ?>
+	<?php
+	the_excerpt(); ?>
+
+    <p><a href="<?php the_permalink(); ?>">Continue reading '<?php the_title(); ?>'</a></p>
+
 </article>
