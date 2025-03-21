@@ -51,3 +51,4 @@ node_modules/
 /package-lock.json
 /sightings.config.php
 /composer.phar
+/css/
