@@ -24,7 +24,7 @@
             <div class="logo">
                 <a href="<?= site_url() ?>">
                     <img src="<?= get_template_directory_uri() . "/assets/images/lsp_logo.svg" ?>"
-                         alt="Stylised image of Latham's Snipe" style="max-width: 80px">
+                         alt="Stylised image of Latham's Snipe">
                 </a>
             </div>
             <h1 class="align-self-center">
