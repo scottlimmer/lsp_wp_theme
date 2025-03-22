@@ -195,6 +195,8 @@ article {
 
   img {
     max-width: $content-width;
+    height: auto;
+    width: auto;
   }
 
 
@@ -204,7 +206,10 @@ article {
       margin-top: 1em;
     }
   }
+}
 
+figure {
+  max-width: 100%;
 }
 
 .team-member {

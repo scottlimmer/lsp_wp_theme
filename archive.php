@@ -6,25 +6,23 @@
 global $year;
 ?>
     <div class="content news-listing">
-        <h1><?=$year?> Archives</h1>
-		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+        <h1><?= $year ?> Archives</h1>
+		<?php
+		$post_args = [
+			'date_query'  => [
+				'year' => $year
+			],
+			'numberposts' => - 1
+		];
 
-			<?php get_template_part( 'partial/news-item' ); ?>
+		$current_posts = get_posts( $post_args );
+		if ( count( $current_posts ) ):
 
-		<?php endwhile; ?>
-
-			<?php
-			if ( get_next_posts_link() ) {
-				next_posts_link();
-			}
-			?>
-			<?php
-			if ( get_previous_posts_link() ) {
-				previous_posts_link();
-			}
-			?>
-
-		<?php else: ?>
+			foreach ( $current_posts as $post ) :
+				setup_postdata( $post );
+				get_template_part( 'partial/news-item' );
+			endforeach;
+		else: ?>
 
             <p>No posts found. :(</p>
 

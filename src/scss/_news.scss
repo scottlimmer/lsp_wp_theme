@@ -5,6 +5,22 @@ main.single {
   .news-item {
     margin-bottom: 2em;
 
+    header {
+      display: grid;
+      grid-template-columns: min-content 1fr;
+      margin: 0 0 1rem;
+      align-items: center;
+
+      h2 {
+        margin: 0;
+      }
+
+      a {
+        padding-right: 1rem;
+        color: #555;
+      }
+    }
+
     .date {
       font-size: 1rem;
     }
