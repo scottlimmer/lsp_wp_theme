@@ -368,3 +368,19 @@ footer {
     }
   }
 }
+
+@include media-breakpoint-down(sm) {
+  header {
+    margin: 1.5em auto 2em;
+
+    .brand {
+      h1 {
+        font-size: 1.3rem;
+      }
+
+      .logo img {
+        max-width: 50px;
+      }
+    }
+  }
+}
