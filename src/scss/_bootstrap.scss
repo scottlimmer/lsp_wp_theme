@@ -1,13 +1,6 @@
 @import "bootstrap/scss/functions";
 
-
-$fa-font-path: './webfonts';
-
-
-@import './fontawesome/scss/fontawesome.scss';
-@import './fontawesome/scss/brands.scss';
-@import './fontawesome/scss/solid.scss';
-
+@import "fonts";
 
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
@@ -38,4 +31,7 @@ $link-hover-color: #006CE8;
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/forms";
-
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/close";
