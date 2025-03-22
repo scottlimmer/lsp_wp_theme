@@ -1,8 +1,8 @@
 <?php
-include 'includes/utils.php';
+include 'lsp_inc/utils.php';
 
-include 'includes/theme.php';
+include 'lsp_inc/theme.php';
 
-include 'includes/sightings.php';
+include 'lsp_inc/sightings.php';
 
-include 'includes/menu.php';
+include 'lsp_inc/menu.php';
