@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7HW0M2VP4Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-7HW0M2VP4Q');
+    </script>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width">
 	<?php wp_head(); ?>
 </head>
 <body>
-<?php
-// TODO: Favicon
-?>
+
 <div class="container-lg">
     <header>
         <div class="brand d-flex me-auto">
