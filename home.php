@@ -15,36 +15,26 @@ get_header();
 include 'partial/sidebar/news.php';
 ?>
 
-            <div class="content news-listing">
+    <div class="content news-listing">
 
-                <h1><?=get_news_page()->post_title?></h1>
-
-
-                <?php
-                $year =  date('Y');
-
-                for ($year; $year > 2015; $year--) {
-	                $post_args = [
-		                'date_query' => [
-			                'year' => $year
-		                ]
-	                ];
-
-	                $current_posts = get_posts($post_args);
-
-                    if (count($current_posts)) {
-                        break;
-                    }
-                }
+        <h1><?= get_news_page()->post_title ?></h1>
 
 
-                foreach ($current_posts as $post) :
-                    setup_postdata($post);
-                    get_template_part('partial/news-item');
-                endforeach;
+		<?php
+		$post_args = [
+			'numberposts' => 5
+		];
 
-                ?>
-            </div>
+		$current_posts = get_posts( $post_args );
+
+
+		foreach ( $current_posts as $post ) :
+			setup_postdata( $post );
+			get_template_part( 'partial/news-item' );
+		endforeach;
+
+		?>
+    </div>
 
 <?php
 
