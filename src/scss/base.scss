@@ -309,6 +309,10 @@ footer {
     column-gap: 50px;
     justify-content: center;
     align-items: center;
+
+    img {
+      max-height: 56px;
+    }
   }
 
 }
@@ -346,5 +350,16 @@ footer {
 
   .sidebar {
     display: none;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  footer {
+    .logos {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      gap: 50px;
+    }
   }
 }
