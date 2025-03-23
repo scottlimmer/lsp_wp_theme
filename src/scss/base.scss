@@ -243,8 +243,7 @@ table {
   }
 }
 
-@import "_front_page";
-@import "_news";
+
 
 .sidebar {
   border-right: 1px solid #000;
@@ -321,6 +320,10 @@ footer {
   }
 
 }
+
+@import "_front_page";
+@import "_news";
+@import "_gallery";
 
 @include media-breakpoint-down(lg) {
   main.home,
