@@ -15,11 +15,12 @@ function lsp_styles(): void {
 
 
 	wp_enqueue_script(
-		'recaptcha-sighting',
+		'main',
 		get_template_directory_uri() . '/dist/main.js',
 		[],
 		get_modified_time( get_template_directory() . '/dist/main.js' )
 	);
+
 	if ( is_page( 'report-a-sighting' ) ) {
 		$config = include 'sightings.config.php';
 
