@@ -1,0 +1,34 @@
+.page.slug-gallery {
+  display: block;
+  width: auto;
+  margin: 0 5em;
+
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    max-width: none;
+    width: auto;
+  }
+
+}
+
+@include media-breakpoint-down(lg) {
+  .page.slug-gallery {
+    margin: 0 2em;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .page.slug-gallery {
+    margin: 0 1em;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .page.slug-gallery {
+    margin: 0;
+  }
+}
+
