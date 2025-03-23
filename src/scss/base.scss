@@ -10,6 +10,10 @@ a:active {
   color: $link-hover-color;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.15rem;
+}
+
 header {
   display: flex;
   margin: 2em auto 2em;
