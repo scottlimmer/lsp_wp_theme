@@ -10,7 +10,7 @@
 class AllowResubmitException extends Exception {
 }
 
-$config        = include 'sightings.config.php';
+$config        = get_sightings_config();
 $show_form     = true;
 $error_message = null;
 

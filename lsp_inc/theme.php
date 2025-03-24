@@ -22,7 +22,7 @@ function lsp_styles(): void {
 	);
 
 	if ( is_page( 'report-a-sighting' ) ) {
-		$config = include 'sightings.config.php';
+		$config = get_sightings_config();
 
 		wp_enqueue_script(
 			'recaptcha-sighting',

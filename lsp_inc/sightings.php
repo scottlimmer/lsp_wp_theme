@@ -1,11 +1,15 @@
 <?php
 
+function get_sightings_config() {
+	return include get_template_directory().'/sightings.config.php';
+}
+
 /**
  * @throws JsonException
  * @throws Exception
  */
 function validate_captcha( $captcha ): true {
-	$config   = include 'sightings.config.php';
+	$config   = get_sightings_config();
 	$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify',
 		false,
 		stream_context_create( [
@@ -85,7 +89,7 @@ function get_missing_data_fields( array $data ): array {
 
 function upload_to_sheets( $data ): bool {
 	require 'vendor/autoload.php';
-	$config = include 'sightings.config.php';
+	$config = get_sightings_config();
 
 	$client = new Google\Client();
 	$client->setAuthConfig( $config['credentialsFile'] );
