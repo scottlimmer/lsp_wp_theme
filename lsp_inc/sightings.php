@@ -88,7 +88,7 @@ function get_missing_data_fields( array $data ): array {
 }
 
 function upload_to_sheets( $data ): bool {
-	require 'vendor/autoload.php';
+	require get_template_directory().'/vendor/autoload.php';
 	$config = get_sightings_config();
 
 	$client = new Google\Client();
