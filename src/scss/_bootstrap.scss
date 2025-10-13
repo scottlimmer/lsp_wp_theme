@@ -1,6 +1,14 @@
+@use '@fortawesome/fontawesome-free/scss/variables' with (
+  $font-path: '~/node_modules/@fortawesome/fontawesome-free/webfonts',
+);
+
+@use "@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@use "@fortawesome/fontawesome-free/scss/brands.scss";
+@use "@fortawesome/fontawesome-free/scss/solid.scss";
+
 @import "bootstrap/scss/functions";
 
-@import "fonts";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
@@ -8,7 +16,6 @@
 $body-bg: #F6F6F6;
 $font-size-base: 1.1rem;
 $font-family-sans-serif: "DM Sans", sans-serif;
-//$headings-font-family: "Lora", serif;
 $headings-font-family: "Josefin Sans", sans-serif;
 $headings-font-weight: 900;
 
